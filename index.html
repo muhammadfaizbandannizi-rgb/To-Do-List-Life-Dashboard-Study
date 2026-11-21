@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Dashboard — To-Do List</title>
+
+  <!-- Google Fonts: Inter + Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Font Awesome 6 — icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- ✅ Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════
+       HEADER  —  logo · brand · theme toggle
+       ══════════════════════════════════════════ -->
+  <header class="header">
+
+    <div class="header-left">
+      <div class="logo" aria-hidden="true">
+        <i class="fas fa-layer-group logo-icon"></i>
+      </div>
+      <div class="brand">
+        <span class="brand-name">Life Dashboard</span>
+        <span class="brand-sub">Productivity Hub</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Challenge 1: Light / Dark Mode toggle -->
+      <button
+        class="btn-icon theme-toggle"
+        id="themeToggle"
+        title="Switch to Light Mode"
+        aria-label="Switch to Light Mode"
+      >
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+    </div>
+
+  </header>
+
+
+  <!-- ══════════════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════════════ -->
+  <main class="main-content">
+
+
+    <!-- ──────────────────────────────────────
+         SECTION 1: GREETING + CLOCK
+         Covers: digital clock, date, greeting,
+                 Challenge 2 — Custom Name
+         ────────────────────────────────────── -->
+    <section class="card greeting-card" aria-label="Greeting and clock">
+
+      <div class="greeting-left">
+        <!-- Real-time digital clock (updated every second by JS) -->
+        <div class="clock-wrapper">
+          <span class="clock" id="clock">00:00:00</span>
+        </div>
+
+        <!-- Date: "Saturday, 21 November 2026" -->
+        <div class="date-wrapper">
+          <span class="date-day"  id="dateDay">Saturday</span>,&nbsp;
+          <span class="date-full" id="dateFull">21 November 2026</span>
+        </div>
+
+        <!-- Greeting + personalised name -->
+        <div class="greeting-text">
+          <span id="greetingText">Good Morning</span>,&nbsp;
+          <span class="greeting-name" id="greetingName">Friend</span>
+          <span aria-hidden="true">👋</span>
+        </div>
+      </div>
+
+      <!-- Challenge 2: Custom Name in Greeting -->
+      <div class="greeting-right">
+        <label class="form-label" for="nameInput">
+          <i class="fas fa-user-edit" aria-hidden="true"></i> Your Name
+        </label>
+        <div class="name-input-group">
+          <input
+            type="text"
+            id="nameInput"
+            class="input-field"
+            placeholder="Enter your name…"
+            maxlength="30"
+            autocomplete="off"
+            aria-label="Enter your name"
+          />
+          <button class="btn btn-primary btn-sm" id="saveNameBtn" title="Save name">
+            <i class="fas fa-check" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+    </section>
+    <!-- /greeting-card -->
+
+
+    <!-- ──────────────────────────────────────
+         MIDDLE ROW: 2-column grid
+         Left  → Focus Timer
+         Right → To-Do List
+         ────────────────────────────────────── -->
+    <div class="grid-two">
+
+
+      <!-- ════════════════════════════════════
+           SECTION 2: FOCUS TIMER (Pomodoro)
+           Covers: timer, start/stop/reset,
+                   Challenge 3 — Change duration
+           ════════════════════════════════════ -->
+      <section class="card timer-card" aria-label="Focus timer">
+
+        <div class="card-header">
+          <h2 class="card-title">
+            <i class="fas fa-stopwatch" aria-hidden="true"></i> Focus Timer
+          </h2>
+          <!-- Live status badge: Ready / Running / Paused / Done -->
+          <span class="badge badge-primary" id="timerStatusBadge">Ready</span>
+        </div>
+
+        <!-- Challenge 3: Change Pomodoro Time -->
+        <div class="duration-selector" role="group" aria-label="Select timer duration">
+          <span class="duration-label">Duration:</span>
+          <div class="duration-options" id="durationOptions">
+            <button class="duration-btn"        data-minutes="15" aria-pressed="false">15 min</button>
+            <button class="duration-btn active" data-minutes="25" aria-pressed="true">25 min</button>
+            <button class="duration-btn"        data-minutes="30" aria-pressed="false">30 min</button>
+            <button class="duration-btn"        data-minutes="45" aria-pressed="false">45 min</button>
+          </div>
+        </div>
+
+        <!-- Circular progress ring + MM:SS display -->
+        <div class="timer-display-wrapper">
+          <div class="timer-ring" aria-hidden="true">
+            <svg class="timer-svg" viewBox="0 0 120 120">
+              <!-- Background track -->
+              <circle class="timer-bg-circle"       cx="60" cy="60" r="52" />
+              <!-- Animated progress arc (strokeDashoffset set by JS) -->
+              <circle class="timer-progress-circle" cx="60" cy="60" r="52"
+                      id="timerProgressCircle" />
+            </svg>
+            <!-- Countdown text -->
+            <div class="timer-time" id="timerDisplay" role="timer" aria-live="off">25:00</div>
+          </div>
+        </div>
+
+        <!-- Timer control buttons -->
+        <div class="timer-controls">
+          <button class="btn btn-success" id="startBtn">
+            <i class="fas fa-play"  aria-hidden="true"></i> Start
+          </button>
+          <button class="btn btn-warning" id="stopBtn" disabled>
+            <i class="fas fa-pause" aria-hidden="true"></i> Pause
+          </button>
+          <button class="btn btn-danger"  id="resetBtn">
+            <i class="fas fa-redo"  aria-hidden="true"></i> Reset
+          </button>
+        </div>
+
+      </section>
+      <!-- /timer-card -->
+
+
+      <!-- ════════════════════════════════════
+           SECTION 3: TO-DO LIST
+           Covers: add, edit, delete, complete,
+                   filter, Local Storage
+           ════════════════════════════════════ -->
+      <section class="card todo-card" aria-label="To-Do list">
+
+        <div class="card-header">
+          <h2 class="card-title">
+            <i class="fas fa-tasks" aria-hidden="true"></i> To-Do List
+          </h2>
+          <!-- Task counters -->
+          <div class="todo-stats" aria-live="polite">
+            <span class="stat-badge"      id="todoCount">0 tasks</span>
+            <span class="stat-badge stat-done" id="todoDoneCount">0 done</span>
+          </div>
+        </div>
+
+        <!-- Add task input -->
+        <div class="todo-input-group">
+          <input
+            type="text"
+            id="todoInput"
+            class="input-field"
+            placeholder="Add a new task…"
+            maxlength="120"
+            autocomplete="off"
+            aria-label="New task text"
+          />
+          <button class="btn btn-primary" id="addTodoBtn" title="Add task" aria-label="Add task">
+            <i class="fas fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Filter tabs: All / Active / Completed -->
+        <div class="todo-filters" role="tablist" aria-label="Filter tasks">
+          <button class="filter-btn active" data-filter="all"       role="tab" aria-selected="true">All</button>
+          <button class="filter-btn"        data-filter="active"    role="tab" aria-selected="false">Active</button>
+          <button class="filter-btn"        data-filter="completed" role="tab" aria-selected="false">Completed</button>
+        </div>
+
+        <!-- Rendered task items (populated by JS) -->
+        <ul class="todo-list" id="todoList" aria-label="Task list" aria-live="polite"></ul>
+
+        <!-- Shown when the filtered list is empty -->
+        <div class="todo-empty" id="todoEmpty" role="status">
+          <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+          <p>No tasks here. Add one above!</p>
+        </div>
+
+        <!-- Footer: clear completed -->
+        <div class="todo-footer" id="todoFooter" style="display:none;">
+          <button class="btn-text btn-clear" id="clearCompletedBtn">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear completed
+          </button>
+        </div>
+
+      </section>
+      <!-- /todo-card -->
+
+
+    </div>
+    <!-- /grid-two -->
+
+
+    <!-- ──────────────────────────────────────
+         SECTION 4: QUICK LINKS
+         Covers: add, delete, open in new tab,
+                 URL validation, Local Storage
+         ────────────────────────────────────── -->
+    <section class="card links-card" aria-label="Quick links">
+
+      <div class="card-header">
+        <h2 class="card-title">
+          <i class="fas fa-link" aria-hidden="true"></i> Quick Links
+        </h2>
+      </div>
+
+      <!-- Add-link form -->
+      <div class="links-form">
+        <div class="links-form-row">
+          <input
+            type="text"
+            id="linkName"
+            class="input-field"
+            placeholder="Site name (e.g. Google)"
+            maxlength="30"
+            autocomplete="off"
+            aria-label="Site name"
+          />
+          <input
+            type="url"
+            id="linkUrl"
+            class="input-field"
+            placeholder="URL (e.g. https://google.com)"
+            maxlength="200"
+            autocomplete="off"
+            aria-label="Site URL"
+          />
+          <button class="btn btn-primary" id="addLinkBtn" aria-label="Add link">
+            <i class="fas fa-plus" aria-hidden="true"></i> Add
+          </button>
+        </div>
+        <!-- Validation error shown by JS -->
+        <span class="form-error" id="linkError" role="alert" aria-live="polite"></span>
+      </div>
+
+      <!-- Link cards (populated by JS; default: Google, YouTube, Gmail, GitHub) -->
+      <div class="links-grid" id="linksGrid" aria-label="Quick links grid"></div>
+
+    </section>
+    <!-- /links-card -->
+
+
+  </main>
+
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════════ -->
+  <footer class="footer">
+    <p>
+      <i class="fas fa-code" aria-hidden="true"></i>
+      Built for <strong>CodingCamp Software Engineering</strong>
+      &nbsp;|&nbsp; To-Do List Life Dashboard
+    </p>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════
+       TOAST NOTIFICATION (shown by JS)
+       ══════════════════════════════════════════ -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+
+  <!-- ══════════════════════════════════════════
+       MODAL 1: Timer complete notification
+       ══════════════════════════════════════════ -->
+  <div
+    class="modal-overlay"
+    id="modalOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div class="modal">
+      <div class="modal-icon" aria-hidden="true">🎉</div>
+      <h3 class="modal-title" id="modalTitle">Focus Session Complete!</h3>
+      <p class="modal-body">
+        Amazing work! Take a short break — you earned it.
+      </p>
+      <button class="btn btn-primary modal-close" id="modalClose">
+        <i class="fas fa-check" aria-hidden="true"></i> Got it!
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       MODAL 2: Edit task
+       ══════════════════════════════════════════ -->
+  <div
+    class="modal-overlay"
+    id="editModalOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="editModalTitle"
+  >
+    <div class="modal">
+      <h3 class="modal-title" id="editModalTitle">
+        <i class="fas fa-edit" aria-hidden="true"></i> Edit Task
+      </h3>
+      <input
+        type="text"
+        id="editTaskInput"
+        class="input-field"
+        placeholder="Update task text…"
+        maxlength="120"
+        autocomplete="off"
+        aria-label="Edit task text"
+      />
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="saveEditBtn">
+          <i class="fas fa-save" aria-hidden="true"></i> Save
+        </button>
+        <button class="btn btn-ghost" id="cancelEditBtn">
+          <i class="fas fa-times" aria-hidden="true"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ✅ Main JavaScript (defer keeps HTML parsing unblocked) -->
+  <script src="js/script.js" defer></script>
+
+</body>
+</html>
